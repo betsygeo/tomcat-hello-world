@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: default
+  labels:
+    app.kubernetes.io/name: app
+    kubernetes.azure.com/generator: container-copilot
+data:
+  # Insert non‐sensitive configuration values here.
+  # For example, if you need to override any default settings from the Docker image,
+  # you could add them here. (Note: DB credentials are sensitive; if you change these from empty values,
+  # consider using a Secret instead.)
+  APP_SETTING: "default-value"
+  DB_URL: ""
+  DB_USERNAME: ""
+  DB_PASSWORD: ""
