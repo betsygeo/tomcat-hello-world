@@ -1,0 +1,38 @@
+name: AKS Context Test
+
+on:
+  workflow_dispatch:  # Allows manual trigger via GitHub UI
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  connect-to-aks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2  # updated version
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set AKS context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+
+      - name: Verify kubectl context
+        run: |
+          kubectl config current-context
+
+      - name: List All Pods
+        run: |
+          kubectl get pods --all-namespaces
+
