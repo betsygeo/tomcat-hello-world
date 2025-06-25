@@ -1,7 +1,9 @@
 name: AKS Context Test
 
 on:
-  workflow_dispatch:  # Allows manual trigger via GitHub UI
+  push:
+    branches:
+      - '**'
 
 permissions:
   id-token: write
